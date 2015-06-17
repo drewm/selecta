@@ -1,0 +1,23 @@
+{
+    "name": "drewm/selecta",
+    "description": "",
+    "license": "MIT",
+    "keywords": ["selector"],
+    "authors": [
+        {
+            "name": "Drew McLellan",
+            "email": "drew.mclellan@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "DrewM\\Selecta\\": "src"
+        }
+    }
+}
