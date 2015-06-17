@@ -72,19 +72,15 @@ class Selecta
 		return $attrs;
 	}
 
-	private static function build_tag($name, $attributes=array(), $contents='', $allow_empty=array(), $dont_escape=array())
+	private static function build_tag($name, $attributes=array(), $contents='')
 	{
 		$tag = '<'.self::html($name);
 		if (count($attributes)) {
 			// do attributes
 			$attpairs = array();
             foreach($attributes as $key=>$val) {
-                if (in_array($key, $allow_empty) || $val!='') {
-                	if (in_array($key, $dont_escape)) {
-                		$attpairs[] = self::html($key).'="'.$val.'"';
-                	}else{
-                		$attpairs[] = self::html($key).'="'.self::html($val, true).'"';
-                	}
+                if ($val!='') {
+               		$attpairs[] = self::html($key).'="'.self::html($val, true).'"';
                 }else{
                 	$attpairs[] = self::html($key);
                 }
