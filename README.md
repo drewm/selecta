@@ -17,6 +17,8 @@ will output:
 
 Currently supports IDs, classes and attribute selectors.
 
+### Class names
+
 ```php
 echo Selecta::build('ul.list li');
 ```
@@ -26,6 +28,8 @@ will output:
 ```html
 <ul class="list"><li></li></ul>
 ```
+
+### IDs
 
 ```php
 echo Selecta::build('div#contact');
@@ -37,6 +41,8 @@ will output:
 <div id="contact"></div>
 ```
 
+### Attribute selectors
+
 ```php
 echo Selecta::build('input[type=radio][name=color][value=blue][checked]');
 ```
@@ -46,6 +52,8 @@ will output:
 ```html
 <input type="radio" name="color" value="blue" checked>
 ```
+
+### Mix it up
 
 All these can be combined and stacked:
 
