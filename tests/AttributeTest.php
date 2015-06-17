@@ -16,4 +16,10 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('<div foo></div>', $result);
 	}
 
+	public function testDoubleAttributeSelector()
+	{
+		$result = Selecta::build('input[type=text][name=foo]');
+		$this->assertEquals('<input type="text" name="foo">', $result);
+	}
+
 }
