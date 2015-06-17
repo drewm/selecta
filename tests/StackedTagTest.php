@@ -10,5 +10,11 @@ class StackedTagTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('<ul><li></li></ul>', $result);
 	}
 
+	public function testStackedTagsWithContent()
+	{
+		$result = Selecta::build('ul li', 'Hello');
+		$this->assertEquals('<ul><li>Hello</li></ul>', $result);
+	}
+
 
 }
