@@ -5,7 +5,7 @@ namespace DrewM\Selecta;
 class Selecta
 {
 	public static $single_tags = array('img', 'br', 'hr');
-	public static $meta_map   = array('.'=>'class', '#'=>'id', '['=>'TODO');
+	public static $meta_map   = array('.'=>'class', '#'=>'id');
 
 	public static function build($selector, $contents='')
 	{
@@ -41,9 +41,27 @@ class Selecta
 
 	private static function build_attributes($meta_char, $value, $attrs)
 	{
+		$key = false;
 		if (isset(self::$meta_map[$meta_char])) {
 			$key = self::$meta_map[$meta_char];
+		}else{
+			switch ($meta_char) {
+				case '[':
+					$value = rtrim($value, ']');
 
+					if (strpos($value, '=')) {
+						$parts = explode('=', $value);
+						$key = $parts[0];
+						$value = $parts[1];
+					}else{
+						$key = $value;
+						$value = false;
+					}
+					break;
+			}
+		}
+
+		if ($key){
 			if (isset($attrs[$key])) {
 				$attrs[$key] .= ' '.$value;
 			}else{
@@ -67,7 +85,9 @@ class Selecta
                 	}else{
                 		$attpairs[] = self::html($key).'="'.self::html($val, true).'"';
                 	}
-                } 
+                }else{
+                	$attpairs[] = self::html($key);
+                }
             }
             $tag .= ' '.implode(' ', $attpairs);
 		}
