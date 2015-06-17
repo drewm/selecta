@@ -18,22 +18,50 @@ will output:
 Currently supports IDs, classes and attribute selectors.
 
 ```php
-echo Selecta::build('ul#list.mr-list li[required] div.foo.bar input[name=hell][type=radio][value=yes][checked][required]');
+echo Selecta::build('ul.list li');
 ```
 
 will output:
 
 ```html
-<ul id="list" class="mr-list">
-	<li required>
-		<div class="foo bar">
-			<input name="hell" type="radio" value="yes" checked required>
-		</div>
-	</li>
-</ul>
+<ul class="list"><li></li></ul>
 ```
 
-(indented for readability)
+```php
+echo Selecta::build('div#contact');
+```
+
+will output:
+
+```html
+<div id="contact"></div>
+```
+
+```php
+echo Selecta::build('input[type=radio][name=color][value=blue][checked]');
+```
+
+will output:
+
+```html
+<input type="radio" name="color" value="blue" checked>
+```
+
+All these can be combined and stacked:
+
+```php
+echo Selecta::build('form#contact div.field input[type=text][required]');
+```
+
+will output (indented for clarity):
+
+```html
+<form id="contact">
+	<div class="field">
+		<input type="text" required>
+	</div>
+</form>
+```
 
 ## Why?
 
