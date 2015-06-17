@@ -37,4 +37,4 @@ will output:
 
 ## Why?
 
-Well, quite.
+Sometimes you need to output a quick bit of HTML at a point where it's really inconvenient to use a full template. Creating strings of HTML in your code is horrible, so this something a bit more humane. 
