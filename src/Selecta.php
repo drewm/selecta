@@ -94,7 +94,7 @@ class Selecta
 		return $tag;
 	}
 
-	private static function html($s=false, $quotes=false, $double_encode=false)
+	private static function html($s, $quotes=false, $double_encode=false)
 	{
 		if ($quotes) {
 	        $q = ENT_QUOTES;
