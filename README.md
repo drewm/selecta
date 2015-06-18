@@ -3,8 +3,6 @@
 [![Build Status](https://travis-ci.org/drewm/selecta.svg)](https://travis-ci.org/drewm/selecta)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/drewm/selecta/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/drewm/selecta/?branch=master)
 
-## Usage
-
 ```php
 echo Selecta::wrap('h1.welcome', 'Hello, world');
 ```
@@ -14,6 +12,12 @@ will output:
 ```html
 <h1 class="welcome">Hello, world</h1>
 ```
+
+## Why?
+
+Sometimes you need to output a quick bit of HTML at a point where it's really inconvenient to use a full template. Creating strings of HTML in your code is horrible, so this something a bit more humane. 
+
+## Usage
 
 Currently supports IDs, classes and attribute selectors.
 
@@ -75,13 +79,13 @@ will output (indented for clarity):
 
 The following methods are available:
 
-`Selecta::wrap(_selector_, _contents_)` will wrap the contents with the tags created by the selector.
+`Selecta::wrap(selector, contents)` will wrap the contents with the tags created by the selector.
 
-`Selecta::open(_selector_)` will open the tags created by the selector.
+`Selecta::open(selector)` will open the tags created by the selector.
 
-`Selecta::close(_selector_)` will close the tags created by the selector. Note that the order of tags is reversed - you can use the same selector string with `open()` and `close()` to get valid tag pairs.
+`Selecta::close(selector)` will close the tags created by the selector. Note that the order of tags is reversed - you can use the same selector string with `open()` and `close()` to get valid tag pairs.
 
-`Selecta::build(_selector_, _contents_, _open_, _close_)` will do everything - build the tags, optionally wrap the contents, optionally open and optionally close the tags. 
+`Selecta::build(selector, contents, open, close)` will do everything - build the tags, optionally wrap the contents, optionally open and optionally close the tags. 
 
 ### Opening and closing
 
@@ -93,6 +97,3 @@ echo $CMS->display_all_my_weird_sidebar_junk();
 echo Selecta::close('section div');
 ```
 
-## Why?
-
-Sometimes you need to output a quick bit of HTML at a point where it's really inconvenient to use a full template. Creating strings of HTML in your code is horrible, so this something a bit more humane. 
