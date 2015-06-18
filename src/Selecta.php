@@ -95,31 +95,45 @@ class Selecta
 		$tag = '';
 
 		if ($open_tag) {
-			$tag = '<'.self::html($name);
-			if (count($attributes)) {
-				// do attributes
-				$attpairs = array();
-	            foreach($attributes as $key=>$val) {
-	                if ($val!='') {
-	               		$attpairs[] = self::html($key).'="'.self::html($val, true).'"';
-	                }else{
-	                	$attpairs[] = self::html($key);
-	                }
-	            }
-	            $tag .= ' '.implode(' ', $attpairs);
-			}
-			$tag .= '>';
+			$tag = self::open_tag($name, $attributes);
 		}
 		
-		if (in_array($name, self::$single_tags)) return $contents.$tag;
+		if (in_array($name, self::$single_tags)) { 
+			return $contents.$tag;
+		}
 
 		$tag .= $contents;
 
 		if ($close_tag) {
-			$tag .= '</'.self::html($name).'>';	
+			$tag .= self::close_tag($name);
 		}
 
 		return $tag;
+	}
+
+	private static function open_tag($name, $attributes=array())
+	{
+		$tag = '<'.self::html($name);
+		if (count($attributes)) {
+			// do attributes
+			$attpairs = array();
+			foreach($attributes as $key=>$val) {
+				if ($val!='') {
+					$attpairs[] = self::html($key).'="'.self::html($val, true).'"';
+				}else{
+					$attpairs[] = self::html($key);
+				}
+			}
+			$tag .= ' '.implode(' ', $attpairs);
+		}
+		$tag .= '>';
+
+		return $tag;
+	}
+
+	private static function close_tag($name)
+	{
+		return  '</'.self::html($name).'>';		
 	}
 
 	private static function html($s, $quotes=false, $double_encode=false)
