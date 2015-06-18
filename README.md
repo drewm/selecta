@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/drewm/selecta.svg)](https://travis-ci.org/drewm/selecta)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/drewm/selecta/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/drewm/selecta/?branch=master)
 
+Use a CSS selector to wrap your content with HTML tags.
+
 ```php
 echo Selecta::wrap('h1.welcome', 'Hello, world');
 ```
@@ -24,25 +26,25 @@ Currently supports IDs, classes and attribute selectors.
 ### Class names
 
 ```php
-echo Selecta::build('ul.list li');
+echo Selecta::wrap('ul.list li', 'So listy');
 ```
 
 will output:
 
 ```html
-<ul class="list"><li></li></ul>
+<ul class="list"><li>So listy</li></ul>
 ```
 
 ### IDs
 
 ```php
-echo Selecta::build('div#contact');
+echo Selecta::wrap('div#contact', 'Call me');
 ```
 
 will output:
 
 ```html
-<div id="contact"></div>
+<div id="contact">Call me</div>
 ```
 
 ### Attribute selectors
