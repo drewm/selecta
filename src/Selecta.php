@@ -7,19 +7,34 @@ class Selecta
 	public static $single_tags = array('img', 'br', 'hr', 'input');
 	public static $meta_map    = array('.'=>'class', '#'=>'id');
 
-	public static function build($selector, $contents='')
+	public static function build($selector, $contents='', $open_tags=true, $close_tags=true)
 	{
 		$parts = explode(' ', $selector);
 		if (count($parts)) {
 			$parts = array_reverse($parts);
 			foreach($parts as $part) {
-				$contents = self::tagify($part, $contents);
+				$contents = self::tagify($part, $contents, $open_tags, $close_tags);
 			}
 		}
 		return $contents;
 	}
 
-	private static function tagify($selector, $contents)
+	public static function wrap($selector, $contents='')
+	{
+		return self::build($selector, $contents, true, true);
+	}
+
+	public static function open($selector)
+	{
+		return self::build($selector, '', true, false);
+	}
+
+	public static function close($selector)
+	{
+		return self::build($selector, '', false, true);
+	}
+
+	private static function tagify($selector='', $contents='', $open_tags=true, $close_tags=true)
 	{
 		$attrs = array();
 
@@ -36,7 +51,7 @@ class Selecta
 			$selector = $parts[0];
 		}
 
-		return self::build_tag($selector, $attrs, $contents);
+		return self::build_tag($selector, $attrs, $contents, $open_tags, $close_tags);
 	}
 
 	private static function build_attributes($meta_char, $value, $attrs)
@@ -75,24 +90,34 @@ class Selecta
 		return $attrs;
 	}
 
-	private static function build_tag($name, $attributes=array(), $contents='')
+	private static function build_tag($name, $attributes=array(), $contents='', $open_tag=true, $close_tag=true)
 	{
-		$tag = '<'.self::html($name);
-		if (count($attributes)) {
-			// do attributes
-			$attpairs = array();
-            foreach($attributes as $key=>$val) {
-                if ($val!='') {
-               		$attpairs[] = self::html($key).'="'.self::html($val, true).'"';
-                }else{
-                	$attpairs[] = self::html($key);
-                }
-            }
-            $tag .= ' '.implode(' ', $attpairs);
+		$tag = '';
+
+		if ($open_tag) {
+			$tag = '<'.self::html($name);
+			if (count($attributes)) {
+				// do attributes
+				$attpairs = array();
+	            foreach($attributes as $key=>$val) {
+	                if ($val!='') {
+	               		$attpairs[] = self::html($key).'="'.self::html($val, true).'"';
+	                }else{
+	                	$attpairs[] = self::html($key);
+	                }
+	            }
+	            $tag .= ' '.implode(' ', $attpairs);
+			}
+			$tag .= '>';
 		}
-		$tag .= '>';
+		
 		if (in_array($name, self::$single_tags)) return $contents.$tag;
-		$tag .= $contents.'</'.self::html($name).'>';
+
+		$tag .= $contents;
+
+		if ($close_tag) {
+			$tag .= '</'.self::html($name).'>';	
+		}
 
 		return $tag;
 	}

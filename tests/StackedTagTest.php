@@ -16,5 +16,16 @@ class StackedTagTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('<ul><li>Hello</li></ul>', $result);
 	}
 
+	public function testOpenTags()
+	{
+		$result = Selecta::open('ul li');
+		$this->assertEquals('<ul><li>', $result);
+	}
+
+	public function testCloseTags()
+	{
+		$result = Selecta::close('ul li');
+		$this->assertEquals('</li></ul>', $result);
+	}
 
 }

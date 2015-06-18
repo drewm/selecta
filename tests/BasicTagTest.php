@@ -12,7 +12,7 @@ class BasicTagTest extends PHPUnit_Framework_TestCase
 
 	public function testSimpleTagWithContent()
 	{
-		$result = Selecta::build('div', 'Hello');
+		$result = Selecta::wrap('div', 'Hello');
 		$this->assertEquals('<div>Hello</div>', $result);
 	}
 

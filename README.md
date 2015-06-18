@@ -6,7 +6,7 @@
 ## Usage
 
 ```php
-echo Selecta::build('h1.welcome', 'Hello, world');
+echo Selecta::wrap('h1.welcome', 'Hello, world');
 ```
 
 will output:
@@ -69,6 +69,28 @@ will output (indented for clarity):
 		<input type="text" required>
 	</div>
 </form>
+```
+
+## Methods
+
+The following methods are available:
+
+`Selecta::wrap(_selector_, _contents_)` will wrap the contents with the tags created by the selector.
+
+`Selecta::open(_selector_)` will open the tags created by the selector.
+
+`Selecta::close(_selector_)` will close the tags created by the selector. Note that the order of tags is reversed - you can use the same selector string with `open()` and `close()` to get valid tag pairs.
+
+`Selecta::build(_selector_, _contents_, _open_, _close_)` will do everything - build the tags, optionally wrap the contents, optionally open and optionally close the tags. 
+
+### Opening and closing
+
+Don't have a template to hand but need to output some structural markup?
+
+```php
+echo Selecta::open('section.sidebar div');
+echo $CMS->display_all_my_weird_sidebar_junk();
+echo Selecta::close('section div');
 ```
 
 ## Why?
