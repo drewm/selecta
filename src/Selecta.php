@@ -5,7 +5,7 @@ namespace DrewM\Selecta;
 class Selecta
 {
 	public static $single_tags = array('img', 'br', 'hr', 'input');
-	public static $meta_map   = array('.'=>'class', '#'=>'id');
+	public static $meta_map    = array('.'=>'class', '#'=>'id');
 
 	public static function build($selector, $contents='')
 	{
@@ -46,6 +46,8 @@ class Selecta
 			$key = self::$meta_map[$meta_char];
 		}else{
 			switch ($meta_char) {
+				
+				// Attribute selectors
 				case '[':
 					$value = rtrim($value, ']');
 
@@ -58,6 +60,7 @@ class Selecta
 						$value = false;
 					}
 					break;
+
 			}
 		}
 
