@@ -38,7 +38,7 @@ class Selecta
 	{
 		$attrs = array();
 
-		$metas = '\.\#\[';
+		$metas   = '\.\#\[';
 		$pattern = '/(['.$metas.'])([^'.$metas.']*)?/';
 		preg_match_all($pattern, $selector, $matches, PREG_SET_ORDER);
 
@@ -47,7 +47,8 @@ class Selecta
 				$attrs = self::build_attributes($match[1], $match[2], $attrs);
 			}
 
-			$parts = preg_split('/['.$metas.']/', $selector);
+			// reduce selector to just tag name
+			$parts    = preg_split('/['.$metas.']/', $selector);
 			$selector = $parts[0];
 		}
 
@@ -68,14 +69,13 @@ class Selecta
 
 					if (strpos($value, '=')) {
 						$parts = explode('=', $value);
-						$key = $parts[0];
+						$key   = $parts[0];
 						$value = $parts[1];
 					}else{
-						$key = $value;
+						$key   = $value;
 						$value = false;
 					}
 					break;
-
 			}
 		}
 
