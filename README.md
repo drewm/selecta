@@ -47,10 +47,10 @@ will output:
 <div id="contact">Call me</div>
 ```
 
-### Attribute selectors
+### Attribute and Pseudo-class selectors
 
 ```php
-echo Selecta::build('input[type=radio][name=color][value=blue][checked]');
+echo Selecta::build('input[type=radio][name=color][value=blue]:checked');
 ```
 
 will output:
@@ -58,6 +58,8 @@ will output:
 ```html
 <input type="radio" name="color" value="blue" checked>
 ```
+
+Currently supports `:checked` and `:disabled` pseudo-classes.
 
 ### Mix it up
 
