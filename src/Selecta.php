@@ -4,8 +4,9 @@ namespace DrewM\Selecta;
  
 class Selecta
 {
-	public static $single_tags = array('img', 'br', 'hr', 'input');
-	public static $meta_map    = array('.'=>'class', '#'=>'id');
+	public static $single_tags    = array('img', 'br', 'hr', 'input');
+	public static $pseudo_classes = array('disabled', 'checked');
+	public static $meta_map       = array('.'=>'class', '#'=>'id');
 
 	public static function build($selector, $contents='', $open_tags=true, $close_tags=true)
 	{
@@ -38,7 +39,7 @@ class Selecta
 	{
 		$attrs = array();
 
-		$metas   = '\.\#\[';
+		$metas   = '\.\#\[\:';
 		$pattern = '/(['.$metas.'])([^'.$metas.']*)?/';
 		preg_match_all($pattern, $selector, $matches, PREG_SET_ORDER);
 
@@ -76,6 +77,11 @@ class Selecta
 						$value = false;
 					}
 					break;
+
+				// Pseudo-class selectors
+				case ':':
+					list($key, $value) = self::build_pseudo_class_attribute($value);
+					break;
 			}
 		}
 
@@ -88,6 +94,15 @@ class Selecta
 		}
 
 		return $attrs;
+	}
+
+	private static function build_pseudo_class_attribute($pclass='')
+	{
+		if (in_array($pclass, self::$pseudo_classes)) {
+			return array($pclass, false);
+		}
+
+		return array(false, false);
 	}
 
 	private static function build_tag($name, $attributes=array(), $contents='', $open_tag=true, $close_tag=true)
