@@ -1,4 +1,4 @@
-# Selecta: write HTML with a CSS selector
+# Selecta: super-light casual templating using CSS selectors
 
 [![Build Status](https://travis-ci.org/drewm/selecta.svg)](https://travis-ci.org/drewm/selecta)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/drewm/selecta/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/drewm/selecta/?branch=master)
