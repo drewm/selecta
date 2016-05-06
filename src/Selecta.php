@@ -69,7 +69,7 @@ class Selecta
 					$value = rtrim($value, ']');
 
 					if (strpos($value, '=')) {
-						$parts = explode('=', $value);
+						$parts = explode('=', $value, 2);
 						$key   = $parts[0];
 						$value = $parts[1];
 					}else{
