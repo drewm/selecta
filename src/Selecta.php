@@ -40,14 +40,7 @@ class Selecta
 		$attrs = array();
 
 		// replace dots within attribute selectors
-		preg_match_all('/\[.*?\]/', $selector, $matches, PREG_SET_ORDER);
-		if (count($matches)) {
-			foreach($matches as $match) {
-				$exact = $match[0];
-				$new = str_replace('.', '__DOT__', $exact);
-				$selector = str_replace($exact, $new, $selector);
-			}
-		}
+		$selector = self::sanitise_attribute_dots($selector);
 
 		$metas   = '\.\#\[\:';
 		$pattern = '/(['.$metas.'])([^'.$metas.']*)?/';
@@ -81,7 +74,7 @@ class Selecta
 					if (strpos($value, '=')) {
 						$parts = explode('=', $value, 2);
 						$key   = $parts[0];
-						$value = str_replace('__DOT__', '.', $parts[1]);
+						$value = self::unsanitise_attribute_dots($parts[1]);
 					}else{
 						$key   = $value;
 						$value = false;
@@ -171,6 +164,24 @@ class Selecta
 	    
 		if ($s || (is_string($s) && strlen($s))) return htmlspecialchars($s, $q, 'UTF-8', $double_encode);
 	    return '';
+	}
+
+	private static function sanitise_attribute_dots($selector)
+	{
+		preg_match_all('/\[.*?\]/', $selector, $matches, PREG_SET_ORDER);
+		if (count($matches)) {
+			foreach($matches as $match) {
+				$exact    = $match[0];
+				$new      = str_replace('.', '__DOT__', $exact);
+				$selector = str_replace($exact, $new, $selector);
+			}
+		}
+		return $selector;
+	}
+
+	private static function unsanitise_attribute_dots($string)
+	{
+		return str_replace('__DOT__', '.', $string);
 	}
 
 } 

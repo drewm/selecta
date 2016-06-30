@@ -28,6 +28,12 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('<a href="?page=1"></a>', $result);
 	}
 
+	public function testAttributeSelectorWithDot()
+	{
+		$result = Selecta::build('a[href=bar.html]');
+		$this->assertEquals('<a href="bar.html"></a>', $result);
+	}
+
 	public function testCheckedSelector()
 	{
 		$result = Selecta::build('input[type=checkbox]:checked');
