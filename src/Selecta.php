@@ -168,12 +168,14 @@ class Selecta
 
 	private static function sanitise_attribute_dots($selector)
 	{
-		preg_match_all('/\[.*?\]/', $selector, $matches, PREG_SET_ORDER);
-		if (count($matches)) {
-			foreach($matches as $match) {
-				$exact    = $match[0];
-				$new      = str_replace('.', '__DOT__', $exact);
-				$selector = str_replace($exact, $new, $selector);
+		if (strpos($selector, '[')!==false) {
+			preg_match_all('/\[.*?\]/', $selector, $matches, PREG_SET_ORDER);
+			if (count($matches)) {
+				foreach($matches as $match) {
+					$exact    = $match[0];
+					$new      = str_replace('.', '__DOT__', $exact);
+					$selector = str_replace($exact, $new, $selector);
+				}
 			}
 		}
 		return $selector;
