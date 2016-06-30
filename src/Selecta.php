@@ -155,14 +155,10 @@ class Selecta
 	}
 
 	private static function html($s, $quotes=false, $double_encode=false)
-	{
-		if ($quotes) {
-	        $q = ENT_QUOTES;
-	    }else{
-	        $q = ENT_NOQUOTES;
-	    }
-	    
-		if ($s || (is_string($s) && strlen($s))) return htmlspecialchars($s, $q, 'UTF-8', $double_encode);
+	{	    
+		if ($s || (is_string($s) && strlen($s))) {
+			return htmlspecialchars($s, ($quotes?ENT_QUOTES:ENT_NOQUOTES), 'UTF-8', $double_encode);
+		}
 	    return '';
 	}
 
