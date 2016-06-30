@@ -69,16 +69,7 @@ class Selecta
 				
 				// Attribute selectors
 				case '[':
-					$value = rtrim($value, ']');
-
-					if (strpos($value, '=')) {
-						$parts = explode('=', $value, 2);
-						$key   = $parts[0];
-						$value = self::unsanitise_attribute_dots($parts[1]);
-					}else{
-						$key   = $value;
-						$value = false;
-					}
+					list($key, $value) = self::build_attribute_selector_attribute($value);
 					break;
 
 				// Pseudo-class selectors
@@ -97,6 +88,22 @@ class Selecta
 		}
 
 		return $attrs;
+	}
+
+	private static function build_attribute_selector_attribute($value)
+	{
+		$value = rtrim($value, ']');
+
+		if (strpos($value, '=')) {
+			$parts = explode('=', $value, 2);
+			$key   = $parts[0];
+			$value = self::unsanitise_attribute_dots($parts[1]);
+		}else{
+			$key   = $value;
+			$value = false;
+		}
+
+		return array($key, $value);
 	}
 
 	private static function build_pseudo_class_attribute($pclass='')
