@@ -39,6 +39,16 @@ class Selecta
 	{
 		$attrs = array();
 
+		// replace dots within attribute selectors
+		preg_match_all('/\[.*?\]/', $selector, $matches, PREG_SET_ORDER);
+		if (count($matches)) {
+			foreach($matches as $match) {
+				$exact = $match[0];
+				$new = str_replace('.', '__DOT__', $exact);
+				$selector = str_replace($exact, $new, $selector);
+			}
+		}
+
 		$metas   = '\.\#\[\:';
 		$pattern = '/(['.$metas.'])([^'.$metas.']*)?/';
 		preg_match_all($pattern, $selector, $matches, PREG_SET_ORDER);
@@ -71,7 +81,7 @@ class Selecta
 					if (strpos($value, '=')) {
 						$parts = explode('=', $value, 2);
 						$key   = $parts[0];
-						$value = $parts[1];
+						$value = str_replace('__DOT__', '.', $parts[1]);
 					}else{
 						$key   = $value;
 						$value = false;
