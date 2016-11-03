@@ -40,7 +40,7 @@ class Selecta
 		$attrs = array();
 
 		// replace dots within attribute selectors
-		$selector = self::sanitise_attribute_dots($selector);
+		$selector = self::sanitise_attribute_metas($selector);
 
 		$metas   = '\.\#\[\:';
 		$pattern = '/(['.$metas.'])([^'.$metas.']*)?/';
@@ -97,7 +97,7 @@ class Selecta
 		if (strpos($value, '=')) {
 			$parts = explode('=', $value, 2);
 			$key   = $parts[0];
-			$value = self::unsanitise_attribute_dots($parts[1]);
+			$value = self::unsanitise_attribute_metas($parts[1]);
 		}else{
 			$key   = $value;
 			$value = false;
@@ -169,14 +169,17 @@ class Selecta
 	    return '';
 	}
 
-	private static function sanitise_attribute_dots($selector)
+	private static function sanitise_attribute_metas($selector)
 	{
 		if (strpos($selector, '[')!==false) {
 			preg_match_all('/\[.*?\]/', $selector, $matches, PREG_SET_ORDER);
 			if (count($matches)) {
 				foreach($matches as $match) {
 					$exact    = $match[0];
-					$new      = str_replace('.', '__DOT__', $exact);
+					$new      = str_replace(
+									self::metas_from(), 
+									self::metas_to(), 
+								$exact);
 					$selector = str_replace($exact, $new, $selector);
 				}
 			}
@@ -184,9 +187,23 @@ class Selecta
 		return $selector;
 	}
 
-	private static function unsanitise_attribute_dots($string)
+	private static function unsanitise_attribute_metas($string)
 	{
-		return str_replace('__DOT__', '.', $string);
+		return str_replace(self::metas_to(), self::metas_from(), $string);
+	}
+
+	private static function metas_from()
+	{
+		return array(
+				'.', ':', '#'
+			);
+	}
+
+	private static function metas_to()
+	{
+		return array(
+				'__DOT__', '__COLON__', '__HASH__'
+			);
 	}
 
 } 

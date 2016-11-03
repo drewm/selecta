@@ -28,10 +28,22 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('<a href="?page=1"></a>', $result);
 	}
 
+	public function testPathWithQueryAttributeSelector()
+	{
+		$result = Selecta::build('a[href=/foo/bar/?page=1&sort=abc]');
+		$this->assertEquals('<a href="/foo/bar/?page=1&amp;sort=abc"></a>', $result);		
+	}
+
 	public function testAttributeSelectorWithDot()
 	{
 		$result = Selecta::build('a[href=bar.html]');
 		$this->assertEquals('<a href="bar.html"></a>', $result);
+	}
+
+	public function testAttributeSelectorWithFQDN()
+	{
+		$result = Selecta::build('a[href=https://secure.gaug.es/dashboard#/foo]');
+		$this->assertEquals('<a href="https://secure.gaug.es/dashboard#/foo"></a>', $result);
 	}
 
 	public function testCheckedSelector()
