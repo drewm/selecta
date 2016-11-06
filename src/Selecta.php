@@ -7,10 +7,13 @@ class Selecta
 	public static $single_tags    = array('img', 'br', 'hr', 'input');
 	public static $pseudo_classes = array('disabled', 'checked');
 	public static $meta_map       = array('.'=>'class', '#'=>'id');
+	public static $metas_from     = array('.', ':', '#', ' ');
+	public static $metas_to       = array('__DOT__', '__COLON__', '__HASH__', '__SPACE__');
 
 	public static function build($selector, $contents='', $open_tags=true, $close_tags=true)
 	{
-		$parts = self::break_into_parts($selector);
+		$selector = self::sanitise_attribute_metas($selector);
+		$parts    = explode(' ', $selector);
 		
 		if (count($parts)) {
 			$parts = array_reverse($parts);
@@ -34,12 +37,6 @@ class Selecta
 	public static function close($selector)
 	{
 		return self::build($selector, '', false, true);
-	}
-
-	private static function break_into_parts($selector)
-	{
-		$selector = self::sanitise_attribute_metas($selector);
-		return explode(' ', $selector);
 	}
 
 	private static function tagify($selector='', $contents='', $open_tags=true, $close_tags=true)
@@ -181,8 +178,8 @@ class Selecta
 				foreach($matches as $match) {
 					$exact    = $match[0];
 					$new      = str_replace(
-									self::metas_from(), 
-									self::metas_to(), 
+									self::$metas_from, 
+									self::$metas_to, 
 								$exact);
 					$selector = str_replace($exact, $new, $selector);
 				}
@@ -193,21 +190,7 @@ class Selecta
 
 	private static function unsanitise_attribute_metas($string)
 	{
-		return str_replace(self::metas_to(), self::metas_from(), $string);
-	}
-
-	private static function metas_from()
-	{
-		return array(
-				'.', ':', '#', ' '
-			);
-	}
-
-	private static function metas_to()
-	{
-		return array(
-				'__DOT__', '__COLON__', '__HASH__', '__SPACE__'
-			);
+		return str_replace(self::$metas_to, self::$metas_from, $string);
 	}
 
 } 
