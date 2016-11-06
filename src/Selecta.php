@@ -10,7 +10,8 @@ class Selecta
 
 	public static function build($selector, $contents='', $open_tags=true, $close_tags=true)
 	{
-		$parts = explode(' ', $selector);
+		$parts = self::break_into_parts($selector);
+		
 		if (count($parts)) {
 			$parts = array_reverse($parts);
 			foreach($parts as $part) {
@@ -35,12 +36,15 @@ class Selecta
 		return self::build($selector, '', false, true);
 	}
 
+	private static function break_into_parts($selector)
+	{
+		$selector = self::sanitise_attribute_metas($selector);
+		return explode(' ', $selector);
+	}
+
 	private static function tagify($selector='', $contents='', $open_tags=true, $close_tags=true)
 	{
 		$attrs = array();
-
-		// replace dots within attribute selectors
-		$selector = self::sanitise_attribute_metas($selector);
 
 		$metas   = '\.\#\[\:';
 		$pattern = '/(['.$metas.'])([^'.$metas.']*)?/';
@@ -195,14 +199,14 @@ class Selecta
 	private static function metas_from()
 	{
 		return array(
-				'.', ':', '#'
+				'.', ':', '#', ' '
 			);
 	}
 
 	private static function metas_to()
 	{
 		return array(
-				'__DOT__', '__COLON__', '__HASH__'
+				'__DOT__', '__COLON__', '__HASH__', '__SPACE__'
 			);
 	}
 
